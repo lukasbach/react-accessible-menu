@@ -1,7 +1,13 @@
-import { ListItemProps, ListItemRenderProps, UseListItemProps } from './types';
+import { ListItemRenderProps, ListItemType, UseListItemProps } from './types';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { ListContext } from './ListContext';
+
+const roles = {
+  [ListItemType.Menu]: 'menuitem',
+  [ListItemType.Radio]: 'menuitemradio',
+  [ListItemType.Checkbox]: 'menuitemcheckbox',
+};
 
 export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | undefined>({
   id: defaultId,
@@ -11,11 +17,13 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
   disabled,
   updateSearchLabelDeps,
   autoFocus, // TODO
+  type: itemType,
 }: UseListItemProps<E, D>) => {
   const [id] = useState(defaultId ?? uuid());
   const childRef = useRef<E>(null);
-  const { unregisterItem, registerItem, updateItem, focusedItem, onFocusItem, onSelectItem } = useContext(ListContext);
+  const { unregisterItem, registerItem, updateItem, focusedItem, onFocusItem, onSelectItem, type: listType } = useContext(ListContext);
   const hasFocus = focusedItem === id;
+  const listItemType = itemType ?? listType ?? ListItemType.Menu;
 
   useEffect(() => {
     if (childRef.current !== null) {
@@ -47,7 +55,7 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
     ref: childRef,
     props: {
       tabIndex: hasFocus ? 0 : -1,
-      role: 'menuitem', // TODO
+      role: roles[listItemType],
       onFocus: e => {
         onFocusItem(id);
       },

@@ -8,10 +8,11 @@ export interface ListRefInterface<T = any | undefined> {
 }
 
 export interface ListProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
-  type?: ListType,
+  type?: ListItemType,
   orientation?: ListOrientation,
   onSelectItem?: (id: ItemId, itemData: D) => void;
   onFocusItem?: (id: ItemId, itemData: D) => void;
+  onKeyDown?: (e: KeyboardEvent) => void,
   focusedItem?: ItemId;
   scrollToItem?: (id: ItemId, itemData: D) => void;
   renderList: (props: ListRenderProps<E, D>) => ReactElement | null;
@@ -25,9 +26,10 @@ export interface ListRenderProps<E extends HTMLElement = HTMLDivElement, D = any
 export interface UseListProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<ListProps<E, D>, "renderList"> {
 }
 
-export enum ListType {
-  List = 'list',
+export enum ListItemType {
   Menu = 'menu',
+  Radio = 'radio',
+  Checkbox = 'checkbox',
 }
 
 export enum ListOrientation {
@@ -43,6 +45,7 @@ export interface ListItemProps<E extends HTMLElement = HTMLDivElement, D = any |
   autoFocus?: boolean;
   disabled?: boolean;
   searchLabel?: string;
+  type?: ListItemType;
 }
 
 export interface UseListItemProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<ListItemProps<E, D>, "renderItem"> {
@@ -60,7 +63,7 @@ export interface ListContextProps {
   registerItem: (item: RegisteredItem) => void;
   unregisterItem: (id: ItemId) => void;
   updateItem: (id: ItemId, item: Partial<Omit<RegisteredItem, 'id'>>) => void;
-  type: ListType;
+  type: ListItemType;
   focusedItem: ItemId;
   onFocusItem: (id: ItemId) => void;
   onSelectItem: (id: ItemId) => void;

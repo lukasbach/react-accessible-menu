@@ -16,6 +16,7 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
  onSelectItem: onSelectItemHandler,
  focusedItem: controlledFocusedItem,
  scrollToItem: scrollToItemHandler,
+ onKeyDown,
 }: UseListProps<E, D>) => {
   const listRef = useRef<E>(null);
 
@@ -67,12 +68,14 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
     onFocusItem,
   }), [type, registerItem, unregisterItem, focusedItem, onFocusItem]);
 
-  useListHotkeys(moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, moveFocusToCharacter, onSelectItem, focusedItemRef, listRef);
+  useListHotkeys(moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, moveFocusToCharacter, onSelectItem, focusedItemRef, onKeyDown, listRef);
 
   const renderProps = useMemo<ListRenderProps<E, D>>(() => ({
     ref: listRef,
     props: {
-
+      role: 'menu',
+      tabIndex: -1,
+      ['aria-orientation']: orientation,
     }
   }), []);
 

@@ -12,7 +12,8 @@ export const useListHotkeys = <T extends HTMLElement>(
   moveFocusToCharacter: ReturnType<typeof useOrderedItems>["moveFocusToCharacter"],
   onSelectItem: ListContextProps["onSelectItem"],
   focusedItemRef: MutableRefObject<ItemId | null>,
-  containerRef: MutableRefObject<T | null>
+  onKeyDown: ((event: KeyboardEvent) => void) | undefined,
+  containerRef: MutableRefObject<T | null>,
 ) => {
   useDocumentEvent('keydown', e => {
     if (interactiveElements.includes((e.target as HTMLElement).tagName.toLowerCase())) {
@@ -22,6 +23,8 @@ export const useListHotkeys = <T extends HTMLElement>(
     if (!containerRef.current || !containerRef.current?.contains(document.activeElement)) {
       return;
     }
+
+    onKeyDown?.(e);
 
     if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
       e.preventDefault();
@@ -50,5 +53,5 @@ export const useListHotkeys = <T extends HTMLElement>(
       e.stopPropagation();
       moveFocusToCharacter(e.key);
     }
-  }, [moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd]);
+  }, [moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, onKeyDown]);
 };
