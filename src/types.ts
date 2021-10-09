@@ -13,7 +13,6 @@ export interface ListProps<T = any | undefined> {
   onSelectItem?: (id: ItemId, itemData: T) => void;
   onFocusItem?: (id: ItemId, itemData: T) => void;
   focusedItem?: ItemId;
-  children?: ReactNode | undefined;
 }
 
 export enum ListType {
@@ -34,6 +33,10 @@ export interface ListItemProps<E extends HTMLElement = HTMLDivElement, D = any |
   autoFocus?: boolean;
   disabled?: boolean;
   searchLabel?: string;
+}
+
+export interface UseListItemProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<ListItemProps<E, D>, "renderItem"> {
+  updateSearchLabelDeps?: any[];
 }
 
 export interface ListItemRenderProps<E extends HTMLElement, T> {
