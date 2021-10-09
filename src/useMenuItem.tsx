@@ -16,7 +16,7 @@ export const useMenuItem = <E extends HTMLElement = HTMLDivElement, D = any | un
   onSelect,
   disabled,
   updateSearchLabelDeps,
-  autoFocus, // TODO
+  autoFocus,
   type: itemType,
 }: UseMenuItemProps<E, D>) => {
   const [id] = useState(defaultId ?? uuid());
@@ -73,6 +73,12 @@ export const useMenuItem = <E extends HTMLElement = HTMLDivElement, D = any | un
       }
     }
   }, [renderProps, ...updateSearchLabelDeps ?? []]);
+
+  useEffect(() => {
+    if (autoFocus) {
+      onFocusItem(id, false);
+    }
+  }, []);
 
   return {
     id,

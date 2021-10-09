@@ -49,8 +49,8 @@ export const useMenu = <E extends HTMLElement = HTMLDivElement, D = any | undefi
     }
   }, [getItem, onSelectItemHandler]);
 
-  const onFocusItem = useCallback<MenuContextProps["onFocusItem"]>(id => {
-    focusItem(id, true);
+  const onFocusItem = useCallback<MenuContextProps["onFocusItem"]>((id, passive = true) => {
+    focusItem(id, passive);
     if (onFocusItemHandler) {
       onFocusItemHandler(id, getItem(id)?.data);
     }

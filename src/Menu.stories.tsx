@@ -222,6 +222,43 @@ export const Grid = () => (
   />
 );
 
+export const AutoFocusItem = () => {
+  const [isRendering, setIsRendering] = useState(false);
+  return isRendering ? (
+    <Menu
+      {...listActionHandlers}
+      renderMenu={({ props, ref }) => (
+        <div className="list" ref={ref} {...props}>
+          {strings.map(item => (
+            <MenuItem<HTMLButtonElement>
+              key={item}
+              id={item}
+              renderItem={({ props, ref, }) => (
+                <button {...props} ref={ref} className="item">
+                  { item }
+                </button>
+              )}
+            />
+          ))}
+          <MenuItem<HTMLButtonElement>
+            id="autofocused"
+            autoFocus={true}
+            renderItem={({ props, ref, }) => (
+              <button {...props} ref={ref} className="item">
+                I am focused by default!
+              </button>
+            )}
+          />
+        </div>
+      )}
+    />
+  ) : (
+    <div>
+      <button onClick={() => setIsRendering(true)}>Render</button>
+    </div>
+  )
+};
+
 export const ComplexNesting = () => (
   <Menu
     {...listActionHandlers}

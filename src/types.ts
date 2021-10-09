@@ -65,7 +65,7 @@ export interface MenuContextProps {
   updateItem: (id: ItemId, item: Partial<Omit<RegisteredItem, 'id'>>) => void;
   type: MenuItemType;
   focusedItem: ItemId;
-  onFocusItem: (id: ItemId) => void;
+  onFocusItem: (id: ItemId, passive?: boolean) => void;
   onSelectItem: (id: ItemId) => void;
 }
 
