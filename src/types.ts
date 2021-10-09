@@ -7,13 +7,22 @@ export interface ListRefInterface<T = any | undefined> {
   triggerOrderRecalculation: () => void;
 }
 
-export interface ListProps<T = any | undefined> {
+export interface ListProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
   type?: ListType,
   orientation?: ListOrientation,
-  onSelectItem?: (id: ItemId, itemData: T) => void;
-  onFocusItem?: (id: ItemId, itemData: T) => void;
+  onSelectItem?: (id: ItemId, itemData: D) => void;
+  onFocusItem?: (id: ItemId, itemData: D) => void;
   focusedItem?: ItemId;
-  scrollToItem?: (id: ItemId, itemData: T) => void;
+  scrollToItem?: (id: ItemId, itemData: D) => void;
+  renderList: (props: ListRenderProps<E, D>) => ReactElement | null;
+}
+
+export interface ListRenderProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
+  props: HTMLAttributes<E>;
+  ref: RefObject<E>;
+}
+
+export interface UseListProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<ListProps<E, D>, "renderList"> {
 }
 
 export enum ListType {

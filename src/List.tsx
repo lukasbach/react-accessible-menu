@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { ListProps } from './types';
-import { PropsWithChildren } from 'react';
-import { useListContainer } from './useListContainer';
+import { PropsWithChildren, useMemo } from 'react';
+import { useList } from './useList';
 
 export function List({
-  children,
+  renderList,
   ...listProps
-}: PropsWithChildren<ListProps>) {
-  const { Provider } = useListContainer(listProps);
-  return <Provider>{children}</Provider>;
+}: ListProps) {
+  const { Provider, renderProps } = useList(listProps);
+
+  const content = useMemo(() => {
+    return renderList(renderProps);
+  }, [renderProps, renderList]);
+
+  return <Provider>{content}</Provider>;
 }

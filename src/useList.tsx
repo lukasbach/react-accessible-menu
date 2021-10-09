@@ -1,7 +1,7 @@
 import { useOrderedItems } from './useOrderedItems';
 import { useRefCopy } from './useRefCopy';
-import { memo, useCallback, useEffect, useMemo } from 'react';
-import { ItemId, ListContextProps, ListOrientation, ListProps, ListType } from './types';
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import { ItemId, ListContextProps, ListOrientation, ListProps, ListRenderProps, ListType, UseListProps } from './types';
 import { useListHotkeys } from './useListHotkeys';
 import { ListContext } from './ListContext';
 import * as React from 'react';
@@ -9,14 +9,16 @@ import * as React from 'react';
 
 const NO_FOCUS = '__NO_FOCUS';
 
-export const useListContainer = ({
+export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefined>({
  orientation = ListOrientation.Vertical,
  type = ListType.Menu,
  onFocusItem: onFocusItemHandler,
  onSelectItem: onSelectItemHandler,
  focusedItem: controlledFocusedItem,
  scrollToItem: scrollToItemHandler,
-}: ListProps) => {
+}: UseListProps<E, D>) => {
+  const listRef = useRef<E>(null);
+
   const {
     items,
     reorder,
@@ -51,7 +53,7 @@ export const useListContainer = ({
   const onFocusItem = useCallback<ListContextProps["onFocusItem"]>(id => {
     focusItem(id, true);
     if (onFocusItemHandler) {
-      onFocusItemHandler(id, getItem(id));
+      onFocusItemHandler(id, getItem(id)?.data);
     }
   }, [focusItem]);
 
@@ -73,12 +75,18 @@ export const useListContainer = ({
     </ListContext.Provider>
   ), []);
 
-  console.log(items.current.length, items.current[0]?.id, items.current[items.current.length - 1]?.id, focusedItem);
+  const renderProps = useMemo<ListRenderProps<E, D>>(() => ({
+    ref: listRef,
+    props: {
+
+    }
+  }), []);
 
   return {
     Provider,
     items,
     focusItem,
-    focusedItem
+    focusedItem,
+    renderProps
   }
 }
