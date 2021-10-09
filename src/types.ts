@@ -13,6 +13,7 @@ export interface ListProps<T = any | undefined> {
   onSelectItem?: (id: ItemId, itemData: T) => void;
   onFocusItem?: (id: ItemId, itemData: T) => void;
   focusedItem?: ItemId;
+  scrollToItem?: (id: ItemId, itemData: T) => void;
 }
 
 export enum ListType {

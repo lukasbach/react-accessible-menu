@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ComponentMeta } from '@storybook/react';
-import { List, ListProps, ListType } from '.';
+import { ItemId, List, ListProps, ListType } from '.';
 import { List as VirtualizedList, AutoSizer, ListRowRenderer } from 'react-virtualized';
 import { ListItem } from './ListItem';
 import { action } from '@storybook/addon-actions';
@@ -328,8 +328,10 @@ export const DynamicChangesToList = () => {
 };
 
 export const VirtualizedExample = () => {
+  const [scrollToIndex, setScrollToIndex] = useState<number>();
+
   const rowRenderer = useCallback<ListRowRenderer>((item) => (
-    <div style={item.style} key={item.key}>
+    <div style={item.style} key={item.key} data-id={item.key}>
       <ListItem<HTMLButtonElement>
         id={item.index}
         renderItem={({ props, ref, }) => (
@@ -342,7 +344,7 @@ export const VirtualizedExample = () => {
   ), []);
 
   return (
-    <List type={ListType.Menu} {...listActionHandlers}>
+    <List type={ListType.Menu} {...listActionHandlers} scrollToItem={(id) => setScrollToIndex(id as number)}>
       <div className="list" style={{ height: "100%", minHeight: "400px" }}>
         <AutoSizer>
           {({width, height}) => (
@@ -353,6 +355,7 @@ export const VirtualizedExample = () => {
               rowHeight={37}
               rowRenderer={rowRenderer}
               overscanRowCount={20}
+              scrollToIndex={scrollToIndex}
             />
           )}
         </AutoSizer>

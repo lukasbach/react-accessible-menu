@@ -1,13 +1,16 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { ItemId, ListContextProps, RegisteredItem } from './types';
 import { sortItems } from './utils';
+import { useRefCopy } from './useRefCopy';
 
 const NO_FOCUS = '__NO_FOCUS';
 
 export const useOrderedItems = (
+  scrollToItem?: (id: ItemId, itemData: any) => void,
 ) => {
   const items = useRef<RegisteredItem[]>([]);
   const [focusedItem, setFocusedItem] = useState<ItemId | null>(null);
+  const focusedItemRef = useRefCopy(focusedItem);
 
   const getItem = useCallback((id: ItemId) => {
     return items.current.find(item => item.id === id);
@@ -18,16 +21,17 @@ export const useOrderedItems = (
   }, []);
 
   const focusItem = useCallback((item: RegisteredItem, passive = false) => {
-    if (focusedItem === item.id || item.disabled) { // TODO use focusitemref
+    if (focusedItemRef.current === item.id || item.disabled) { // TODO use focusitemref
       return;
     }
 
     setFocusedItem(item.id);
 
     if (!passive) {
+      scrollToItem?.(item.id, item);
       item.node.focus();
     }
-  }, [focusedItem]);
+  }, [scrollToItem]);
 
   const focusItemById = useCallback((itemId: ItemId, passive = false) => {
     const item = getItem(itemId);
@@ -38,21 +42,21 @@ export const useOrderedItems = (
 
   const registerItem = useCallback<ListContextProps["registerItem"]>((item) => {
     items.current.push(item);
-    if (focusedItem === null) {
+    if (focusedItemRef.current === null) {
       focusItem(item, true);
     }
     reorder();
-  }, []);
+  }, [focusItem, reorder]);
 
   const unregisterItem = useCallback<ListContextProps["unregisterItem"]>((id) => {
     const index = items.current.findIndex(item => item.id === id);
     if (index >= 0) {
       items.current.splice(index, 1);
     }
-    if (focusedItem === id) {
+    if (focusedItemRef.current === id) {
       focusItem(items.current[0] ?? null, true);
     }
-  }, [focusedItem, focusItem]);
+  }, [focusItem]);
 
   const updateItem = useCallback<ListContextProps["updateItem"]>((id, item) => {
     const index = items.current.findIndex(item => item.id === id);
@@ -62,8 +66,8 @@ export const useOrderedItems = (
   }, []);
 
   const getFocusedItemIndex = useCallback(() => {
-    return items.current.findIndex(item => item.id === focusedItem);
-  }, [focusedItem]);
+    return items.current.findIndex(item => item.id === focusedItemRef.current);
+  }, []);
 
   const moveFocusIndex = useCallback((index: number) => {
     const newFocusItem = items.current[index];

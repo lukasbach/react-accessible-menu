@@ -1,7 +1,7 @@
 import { useOrderedItems } from './useOrderedItems';
 import { useRefCopy } from './useRefCopy';
 import { memo, useCallback, useEffect, useMemo } from 'react';
-import { ListContextProps, ListOrientation, ListProps, ListType } from './types';
+import { ItemId, ListContextProps, ListOrientation, ListProps, ListType } from './types';
 import { useListHotkeys } from './useListHotkeys';
 import { ListContext } from './ListContext';
 import * as React from 'react';
@@ -15,6 +15,7 @@ export const useListContainer = ({
  onFocusItem: onFocusItemHandler,
  onSelectItem: onSelectItemHandler,
  focusedItem: controlledFocusedItem,
+ scrollToItem: scrollToItemHandler,
 }: ListProps) => {
   const {
     items,
@@ -29,7 +30,7 @@ export const useListContainer = ({
     moveFocusToStart,
     moveFocusToEnd,
     moveFocusToCharacter,
-  } = useOrderedItems();
+  } = useOrderedItems(scrollToItemHandler);
 
   const focusedItemRef = useRefCopy(focusedItem);
 
@@ -71,6 +72,8 @@ export const useListContainer = ({
       { children }
     </ListContext.Provider>
   ), []);
+
+  console.log(items.current.length, items.current[0]?.id, items.current[items.current.length - 1]?.id, focusedItem);
 
   return {
     Provider,
