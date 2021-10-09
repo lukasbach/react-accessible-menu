@@ -1,0 +1,89 @@
+{
+  "name": "react-accessible-list",
+  "version": "1.0.0",
+  "description": "Accessible keyboard-friendly interactive list component",
+  "keywords": [
+    "react",
+    "library",
+    "ui",
+    "component",
+    "tiny",
+    "list",
+    "keyboard",
+    "hotkey",
+    "hotkeys",
+    "interactive",
+    "accessible",
+    "a11y",
+    "typed",
+    "typings"
+  ],
+  "sideEffects": false,
+  "author": "Lukas Bach <lbach@outlook.de>",
+  "homepage": "https://github.com/lukasbach/react-accessible-list",
+  "license": "MIT",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "typings": "lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "default": "./lib/esm/index.js"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukasbach/react-accessible-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lukasbach/react-accessible-list/issues"
+  },
+  "scripts": {
+    "prepack": "yarn build",
+    "prebuild": "rimraf lib",
+    "build": "run-p \"build:*\"",
+    "build:cjs": "tsc -m commonjs --outDir lib/cjs",
+    "build:esm": "tsc -m es2015 --outDir lib/esm",
+    "build:esnext": "tsc -m esnext --outDir lib/esnext",
+    "build:bundle": "webpack",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@lukasbach/tsconfig": "^0.1.0",
+    "@storybook/addon-actions": "^6.3.8",
+    "@storybook/addon-essentials": "^6.3.8",
+    "@storybook/addon-links": "^6.3.8",
+    "@storybook/react": "^6.3.8",
+    "@types/react-virtualized": "^9.21.13",
+    "babel-loader": "^8.2.2",
+    "loader-utils": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.2",
+    "react-virtualized": "^9.22.3",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.6"
+  },
+  "dependencies": {
+    "@types/uuid": "^8.3.1",
+    "uuid": "^8.3.2"
+  }
+}

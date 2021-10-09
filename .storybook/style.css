@@ -1,0 +1,50 @@
+html, body, #root {
+    height: 100%;
+}
+
+.list {
+
+}
+
+.card {
+    border-radius: 8px;
+    border: 1px solid #d7d7d7;
+    padding: 8px 16px;
+    margin: 16px;
+}
+
+.vertical {
+    display: flex;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    display: block;
+    width: 300px;
+    border-radius: 8px;
+    border: 1px solid #d7d7d7;
+    text-align: left;
+    padding: 8px 16px;
+    margin: 2px;
+    background: rgba(0, 0, 0, .01);
+}
+
+.item:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, .03);
+}
+
+.item:active {
+    cursor: pointer;
+    background: rgba(0, 0, 0, .06);
+}
+
+.item:focus {
+    border-color: #1f59a8;
+    box-shadow: 0 0 0 2px #8dbdfc;
+    outline: none;
+}
