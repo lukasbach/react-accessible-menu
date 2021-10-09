@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ComponentMeta } from '@storybook/react';
-import { ItemId, List, ListProps, ListType } from '.';
+import { ItemId, List, ListProps, ListItemType } from '.';
 import { List as VirtualizedList, AutoSizer, ListRowRenderer } from 'react-virtualized';
 import { ListItem } from './ListItem';
 import { action } from '@storybook/addon-actions';
@@ -25,7 +25,6 @@ const listActionHandlers: Pick<ListProps, 'onSelectItem' | 'onFocusItem'> = {
 
 export const SimpleExample = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
@@ -64,7 +63,6 @@ export const SimpleExample = () => (
 
 export const JumpToKey = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
@@ -120,7 +118,6 @@ export const UsingHooks = () => {
 
 export const LotsOfItems = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
@@ -142,7 +139,6 @@ export const LotsOfItems = () => (
 
 export const CustomSearchKeys = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
@@ -165,7 +161,6 @@ export const CustomSearchKeys = () => (
 
 export const MinimalisticExample = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div ref={ref} {...props}>
@@ -187,7 +182,6 @@ export const MinimalisticExample = () => (
 
 export const VerticalList = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list vertical" ref={ref} {...props}>
@@ -209,7 +203,6 @@ export const VerticalList = () => (
 
 export const Grid = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list grid" ref={ref} {...props}>
@@ -231,7 +224,6 @@ export const Grid = () => (
 
 export const ComplexNesting = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
@@ -274,7 +266,6 @@ export const ComplexNesting = () => (
 
 export const InterruptedList = () => (
   <List
-    type={ListType.Menu}
     {...listActionHandlers}
     renderList={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
@@ -331,7 +322,6 @@ export const DynamicChangesToList = () => {
 
   return (
     <List
-      type={ListType.Menu}
       {...listActionHandlers}
       renderList={({ props, ref }) => (
         <div ref={ref} {...props}>
@@ -396,7 +386,6 @@ export const VirtualizedExample = () => {
 
   return (
     <List
-      type={ListType.Menu}
       {...listActionHandlers}
       scrollToItem={(id) => setScrollToIndex(id as number)}
       renderList={({ props, ref }) => (
