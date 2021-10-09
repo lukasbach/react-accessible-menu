@@ -1,7 +1,7 @@
 {
-  "name": "react-accessible-list",
+  "name": "react-accessible-menu",
   "version": "1.0.0",
-  "description": "Accessible keyboard-friendly interactive list component",
+  "description": "Accessible keyboard-friendly interactive list/menu component",
   "keywords": [
     "react",
     "library",
@@ -9,6 +9,8 @@
     "component",
     "tiny",
     "list",
+    "menu",
+    "menuitem",
     "keyboard",
     "hotkey",
     "hotkeys",
@@ -20,7 +22,7 @@
   ],
   "sideEffects": false,
   "author": "Lukas Bach <lbach@outlook.de>",
-  "homepage": "https://github.com/lukasbach/react-accessible-list",
+  "homepage": "https://github.com/lukasbach/react-accessible-menu",
   "license": "MIT",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -40,10 +42,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lukasbach/react-accessible-list.git"
+    "url": "git+https://github.com/lukasbach/react-accessible-menu.git"
   },
   "bugs": {
-    "url": "https://github.com/lukasbach/react-accessible-list/issues"
+    "url": "https://github.com/lukasbach/react-accessible-menu/issues"
   },
   "scripts": {
     "prepack": "yarn build",
