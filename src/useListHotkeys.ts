@@ -5,19 +5,23 @@ import { MutableRefObject } from 'react';
 
 const interactiveElements = ["textarea", "input"];
 
-export const useListHotkeys = (
+export const useListHotkeys = <T extends HTMLElement>(
   moveFocusIndexRelative: ReturnType<typeof useOrderedItems>["moveFocusIndexRelative"],
   moveFocusToStart: ReturnType<typeof useOrderedItems>["moveFocusToStart"],
   moveFocusToEnd: ReturnType<typeof useOrderedItems>["moveFocusToEnd"],
   moveFocusToCharacter: ReturnType<typeof useOrderedItems>["moveFocusToCharacter"],
   onSelectItem: ListContextProps["onSelectItem"],
   focusedItemRef: MutableRefObject<ItemId | null>,
+  containerRef: MutableRefObject<T | null>
 ) => {
   useDocumentEvent('keydown', e => {
     if (interactiveElements.includes((e.target as HTMLElement).tagName.toLowerCase())) {
       return;
     }
-    // TODO ignore if focus item is not within list
+
+    if (!containerRef.current || !containerRef.current?.contains(document.activeElement)) {
+      return;
+    }
 
     if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
       e.preventDefault();

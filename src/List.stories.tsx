@@ -6,6 +6,7 @@ import { ListItem } from './ListItem';
 import { action } from '@storybook/addon-actions';
 import { useList } from './useList';
 import { useListItem } from './useListItem';
+import { ListContext } from './ListContext';
 
 export default {
   title: 'Accessible List',
@@ -84,7 +85,13 @@ export const JumpToKey = () => (
 );
 
 export const UsingHooks = () => {
-  const { Provider, focusedItem, focusItem, items } = useList({});
+  /**
+   * Note: Using the `useListItem` hook to compose custom list items is really helpful,
+   * however using the `useList` hook is usually a worse choice compared to using the
+   * `List` component. You can still compose custom list items with `useListItem` while
+   * stille using the `List` container component.
+   */
+  const { Provider, contextProps, focusedItem, focusItem, items, renderProps } = useList({});
 
   const Item = useCallback<React.FC<{ id?: string }>>(({ children, id }) => {
     const { renderProps } = useListItem<HTMLButtonElement>({ id });
@@ -98,8 +105,8 @@ export const UsingHooks = () => {
   const currentlySelected = items.current.find(item => item.id === focusedItem)?.searchLabel;
 
   return (
-    <Provider>
-      <div className="list">
+    <Provider value={contextProps}>
+      <div className="list" ref={renderProps.ref} {...renderProps.props}>
         <Item>Apple</Item>
         <Item>Orange</Item>
         <Item id="strawb">Strawberry</Item>

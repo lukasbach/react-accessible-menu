@@ -21,7 +21,7 @@ export const useOrderedItems = (
   }, []);
 
   const focusItem = useCallback((item: RegisteredItem, passive = false) => {
-    if (focusedItemRef.current === item.id || item.disabled) { // TODO use focusitemref
+    if (focusedItemRef.current === item.id || item.disabled) {
       return;
     }
 
@@ -43,7 +43,7 @@ export const useOrderedItems = (
   const registerItem = useCallback<ListContextProps["registerItem"]>((item) => {
     items.current.push(item);
     if (focusedItemRef.current === null) {
-      focusItem(item, true);
+      focusItem(items.current[0], true);
     }
     reorder();
   }, [focusItem, reorder]);
@@ -53,8 +53,8 @@ export const useOrderedItems = (
     if (index >= 0) {
       items.current.splice(index, 1);
     }
-    if (focusedItemRef.current === id) {
-      focusItem(items.current[0] ?? null, true);
+    if (focusedItemRef.current === id && items.current[0]) {
+      focusItem(items.current[0], true);
     }
   }, [focusItem]);
 

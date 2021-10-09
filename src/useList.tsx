@@ -67,13 +67,7 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
     onFocusItem,
   }), [type, registerItem, unregisterItem, focusedItem, onFocusItem]);
 
-  useListHotkeys(moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, moveFocusToCharacter, onSelectItem, focusedItemRef);
-
-  const Provider: React.FC = useCallback(({ children }) => (
-    <ListContext.Provider value={contextProps}>
-      { children }
-    </ListContext.Provider>
-  ), []);
+  useListHotkeys(moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, moveFocusToCharacter, onSelectItem, focusedItemRef, listRef);
 
   const renderProps = useMemo<ListRenderProps<E, D>>(() => ({
     ref: listRef,
@@ -83,7 +77,8 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
   }), []);
 
   return {
-    Provider,
+    Provider: ListContext.Provider,
+    contextProps,
     items,
     focusItem,
     focusedItem,

@@ -15,6 +15,7 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
   const [id] = useState(defaultId ?? uuid());
   const childRef = useRef<E>(null);
   const { unregisterItem, registerItem, updateItem, focusedItem, onFocusItem, onSelectItem } = useContext(ListContext);
+  const hasFocus = focusedItem === id;
 
   useEffect(() => {
     if (childRef.current !== null) {
@@ -45,7 +46,7 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
     data,
     ref: childRef,
     props: {
-      tabIndex: focusedItem === id ? 0 : -1,
+      tabIndex: hasFocus ? 0 : -1,
       role: 'menuitem', // TODO
       onFocus: e => {
         onFocusItem(id);
@@ -54,7 +55,7 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
         onSelectItem(id);
       },
     }
-  }), [id, data, onFocusItem]);
+  }), [id, data, onFocusItem, hasFocus]);
 
   useEffect(() => {
     if (!searchLabel) {

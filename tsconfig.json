@@ -1,7 +1,8 @@
 {
   "extends": "@lukasbach/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "lib/cjs"
+    "outDir": "lib/cjs",
+    "strictNullChecks": true
   },
   "exclude": ["**/*.stories.tsx", "**/*.stories.ts", "node_modules"],
   "include": ["src"]

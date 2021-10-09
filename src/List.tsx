@@ -7,11 +7,11 @@ export function List({
   renderList,
   ...listProps
 }: ListProps) {
-  const { Provider, renderProps } = useList(listProps);
+  const { Provider, contextProps, renderProps } = useList(listProps);
 
   const content = useMemo(() => {
     return renderList(renderProps);
   }, [renderProps, renderList]);
 
-  return <Provider>{content}</Provider>;
+  return <Provider value={contextProps}>{content}</Provider>;
 }
