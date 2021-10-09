@@ -1,13 +1,13 @@
 import { createContext } from 'react';
-import { ListContextProps, ListType } from './types';
+import { MenuContextProps, MenuItemType } from './types';
 
 
-export const ListContext = createContext<ListContextProps>({
+export const MenuContext = createContext<MenuContextProps>({
   registerItem: () => {},
   unregisterItem: () => {},
   updateItem: () => {},
   onSelectItem: () => {},
   onFocusItem: () => {},
-  type: ListType.List,
+  type: MenuItemType.Menu,
   focusedItem: -1,
 });

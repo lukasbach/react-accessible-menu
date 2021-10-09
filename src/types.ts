@@ -2,68 +2,68 @@ import { HTMLAttributes, HTMLProps, ReactElement, ReactNode, RefObject } from 'r
 
 export type ItemId = string | number;
 
-export interface ListRefInterface<T = any | undefined> {
+export interface MenuRefInterface<T = any | undefined> { // TODO
   focusItem: (id: ItemId) => void;
   triggerOrderRecalculation: () => void;
 }
 
-export interface ListProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
-  type?: ListItemType,
-  orientation?: ListOrientation,
+export interface MenuProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
+  type?: MenuItemType,
+  orientation?: MenuOrientation,
   onSelectItem?: (id: ItemId, itemData: D) => void;
   onFocusItem?: (id: ItemId, itemData: D) => void;
   onKeyDown?: (e: KeyboardEvent) => void,
   focusedItem?: ItemId;
   scrollToItem?: (id: ItemId, itemData: D) => void;
-  renderList: (props: ListRenderProps<E, D>) => ReactElement | null;
+  renderMenu: (props: MenuRenderProps<E, D>) => ReactElement | null;
 }
 
-export interface ListRenderProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
+export interface MenuRenderProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
   props: HTMLAttributes<E>;
   ref: RefObject<E>;
 }
 
-export interface UseListProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<ListProps<E, D>, "renderList"> {
+export interface UseMenuProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<MenuProps<E, D>, "renderMenu"> {
 }
 
-export enum ListItemType {
+export enum MenuItemType {
   Menu = 'menu',
   Radio = 'radio',
   Checkbox = 'checkbox',
 }
 
-export enum ListOrientation {
+export enum MenuOrientation {
   Vertical = 'vertical',
   Horizontal = 'horizontal',
 }
 
-export interface ListItemProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
+export interface MenuItemProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
   id?: ItemId;
   data?: D;
-  renderItem: (props: ListItemRenderProps<E, D>) => ReactElement | null;
+  renderItem: (props: MenuItemRenderProps<E, D>) => ReactElement | null;
   onSelect?: () => void;
   autoFocus?: boolean;
   disabled?: boolean;
   searchLabel?: string;
-  type?: ListItemType;
+  type?: MenuItemType;
 }
 
-export interface UseListItemProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<ListItemProps<E, D>, "renderItem"> {
+export interface UseMenuItemProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> extends Omit<MenuItemProps<E, D>, "renderItem"> {
   updateSearchLabelDeps?: any[];
 }
 
-export interface ListItemRenderProps<E extends HTMLElement, T> {
+export interface MenuItemRenderProps<E extends HTMLElement, T> {
   id: ItemId;
   data?: T;
   props: HTMLAttributes<E>;
   ref: RefObject<E>;
 }
 
-export interface ListContextProps {
+export interface MenuContextProps {
   registerItem: (item: RegisteredItem) => void;
   unregisterItem: (id: ItemId) => void;
   updateItem: (id: ItemId, item: Partial<Omit<RegisteredItem, 'id'>>) => void;
-  type: ListItemType;
+  type: MenuItemType;
   focusedItem: ItemId;
   onFocusItem: (id: ItemId) => void;
   onSelectItem: (id: ItemId) => void;

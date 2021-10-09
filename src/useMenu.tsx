@@ -1,28 +1,26 @@
 import { useOrderedItems } from './useOrderedItems';
 import { useRefCopy } from './useRefCopy';
 import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
-import { ItemId, ListContextProps, ListOrientation, ListProps, ListRenderProps, ListType, UseListProps } from './types';
+import { ItemId, MenuContextProps, MenuOrientation, MenuProps, MenuRenderProps, MenuItemType, UseMenuProps } from './types';
 import { useListHotkeys } from './useListHotkeys';
-import { ListContext } from './ListContext';
+import { MenuContext } from './MenuContext';
 import * as React from 'react';
-
 
 const NO_FOCUS = '__NO_FOCUS';
 
-export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefined>({
- orientation = ListOrientation.Vertical,
- type = ListType.Menu,
+export const useMenu = <E extends HTMLElement = HTMLDivElement, D = any | undefined>({
+ orientation = MenuOrientation.Vertical,
+ type = MenuItemType.Menu,
  onFocusItem: onFocusItemHandler,
  onSelectItem: onSelectItemHandler,
  focusedItem: controlledFocusedItem,
  scrollToItem: scrollToItemHandler,
  onKeyDown,
-}: UseListProps<E, D>) => {
+}: UseMenuProps<E, D>) => {
   const listRef = useRef<E>(null);
 
   const {
     items,
-    reorder,
     getItem,
     registerItem,
     unregisterItem,
@@ -43,7 +41,7 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
     }
   }, [focusItem, controlledFocusedItem]);
 
-  const onSelectItem = useCallback<ListContextProps["onSelectItem"]>(id => {
+  const onSelectItem = useCallback<MenuContextProps["onSelectItem"]>(id => {
     const item = getItem(id);
     if (item) {
       onSelectItemHandler?.(id, item.data);
@@ -51,14 +49,14 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
     }
   }, [getItem, onSelectItemHandler]);
 
-  const onFocusItem = useCallback<ListContextProps["onFocusItem"]>(id => {
+  const onFocusItem = useCallback<MenuContextProps["onFocusItem"]>(id => {
     focusItem(id, true);
     if (onFocusItemHandler) {
       onFocusItemHandler(id, getItem(id)?.data);
     }
   }, [focusItem]);
 
-  const contextProps = useMemo<ListContextProps>(() => ({
+  const contextProps = useMemo<MenuContextProps>(() => ({
     type,
     registerItem,
     unregisterItem,
@@ -70,7 +68,7 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
 
   useListHotkeys(moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, moveFocusToCharacter, onSelectItem, focusedItemRef, onKeyDown, listRef);
 
-  const renderProps = useMemo<ListRenderProps<E, D>>(() => ({
+  const renderProps = useMemo<MenuRenderProps<E, D>>(() => ({
     ref: listRef,
     props: {
       role: 'menu',
@@ -80,11 +78,16 @@ export const useList = <E extends HTMLElement = HTMLDivElement, D = any | undefi
   }), []);
 
   return {
-    Provider: ListContext.Provider,
+    Provider: MenuContext.Provider,
     contextProps,
     items,
     focusItem,
     focusedItem,
-    renderProps
-  }
+    renderProps,
+    getItem,
+    moveFocusIndexRelative,
+    moveFocusToStart,
+    moveFocusToEnd,
+    moveFocusToCharacter,
+  };
 }

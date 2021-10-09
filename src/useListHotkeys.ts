@@ -1,6 +1,6 @@
 import { useDocumentEvent } from './useDocumentEvent';
 import { useOrderedItems } from './useOrderedItems';
-import { ItemId, ListContextProps } from './types';
+import { ItemId, MenuContextProps } from './types';
 import { MutableRefObject } from 'react';
 
 const interactiveElements = ["textarea", "input"];
@@ -10,7 +10,7 @@ export const useListHotkeys = <T extends HTMLElement>(
   moveFocusToStart: ReturnType<typeof useOrderedItems>["moveFocusToStart"],
   moveFocusToEnd: ReturnType<typeof useOrderedItems>["moveFocusToEnd"],
   moveFocusToCharacter: ReturnType<typeof useOrderedItems>["moveFocusToCharacter"],
-  onSelectItem: ListContextProps["onSelectItem"],
+  onSelectItem: MenuContextProps["onSelectItem"],
   focusedItemRef: MutableRefObject<ItemId | null>,
   onKeyDown: ((event: KeyboardEvent) => void) | undefined,
   containerRef: MutableRefObject<T | null>,

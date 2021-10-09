@@ -1,55 +1,54 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ComponentMeta } from '@storybook/react';
-import { ItemId, List, ListProps, ListItemType } from '.';
-import { List as VirtualizedList, AutoSizer, ListRowRenderer } from 'react-virtualized';
-import { ListItem } from './ListItem';
+import { Menu, MenuOrientation, MenuProps } from '.';
+import { AutoSizer, List as VirtualizedList, ListRowRenderer } from 'react-virtualized';
+import { MenuItem } from './MenuItem';
 import { action } from '@storybook/addon-actions';
-import { useList } from './useList';
-import { useListItem } from './useListItem';
-import { ListContext } from './ListContext';
+import { useMenu } from './useMenu';
+import { useMenuItem } from './useMenuItem';
 
 export default {
-  title: 'Accessible List',
-  component: List,
-  subcomponents: {List, ListItem},
-} as ComponentMeta<typeof List>;
+  title: 'Accessible Menu',
+  component: Menu,
+  subcomponents: {List: Menu, ListItem: MenuItem},
+} as ComponentMeta<typeof Menu>;
 
 const numbers = "-".repeat(100).split("").map((_, idx) => idx);
 const largeList = "-".repeat(1_000_000).split("").map((_, idx) => idx);
 const strings = ['Apple', 'Banana', 'Blueberry', 'Brownies', 'Chowder', 'Lemon', 'Mac and Cheese', 'Orange', 'Ravioli', 'Smash Burger', 'Strawberry'];
 
-const listActionHandlers: Pick<ListProps, 'onSelectItem' | 'onFocusItem'> = {
+const listActionHandlers: Pick<MenuProps, 'onSelectItem' | 'onFocusItem'> = {
   onFocusItem: action("onFocusItem"),
   onSelectItem: action("onSelectItem"),
 };
 
 export const SimpleExample = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Apple
             </button>
           )}
         />
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Orange
             </button>
           )}
         />
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Strawberry
             </button>
           )}
         />
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Blueberry
@@ -62,12 +61,12 @@ export const SimpleExample = () => (
 );
 
 export const JumpToKey = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
         {strings.map(item => (
-          <ListItem<HTMLButtonElement>
+          <MenuItem<HTMLButtonElement>
             key={item}
             id={item}
             renderItem={({ props, ref,  }) => (
@@ -84,15 +83,15 @@ export const JumpToKey = () => (
 
 export const UsingHooks = () => {
   /**
-   * Note: Using the `useListItem` hook to compose custom list items is really helpful,
-   * however using the `useList` hook is usually a worse choice compared to using the
-   * `List` component. You can still compose custom list items with `useListItem` while
-   * stille using the `List` container component.
+   * Note: Using the `useMenuItem` hook to compose custom list items is really helpful,
+   * however using the `useMenu` hook is usually a worse choice compared to using the
+   * `Menu` component. You can still compose custom list items with `useMenuItem` while
+   * stille using the `Menu` container component.
    */
-  const { Provider, contextProps, focusedItem, focusItem, items, renderProps } = useList({});
+  const { Provider, contextProps, focusedItem, focusItem, items, renderProps } = useMenu({});
 
   const Item = useCallback<React.FC<{ id?: string }>>(({ children, id }) => {
-    const { renderProps } = useListItem<HTMLButtonElement>({ id });
+    const { renderProps } = useMenuItem<HTMLButtonElement>({ id });
     return (
       <button {...renderProps.props} ref={renderProps.ref} className="item">
         { children }
@@ -117,12 +116,12 @@ export const UsingHooks = () => {
 };
 
 export const LotsOfItems = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
         {numbers.map(item => (
-          <ListItem<HTMLButtonElement>
+          <MenuItem<HTMLButtonElement>
             key={item}
             id={item}
             renderItem={({ props, ref, }) => (
@@ -138,12 +137,12 @@ export const LotsOfItems = () => (
 );
 
 export const CustomSearchKeys = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
         {["a", "b", "c", "d", "e", "f", "g"].map(item => (
-          <ListItem<HTMLButtonElement>
+          <MenuItem<HTMLButtonElement>
             key={item}
             id={item}
             searchLabel={item}
@@ -160,12 +159,12 @@ export const CustomSearchKeys = () => (
 );
 
 export const MinimalisticExample = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div ref={ref} {...props}>
         {strings.map(item => (
-          <ListItem<HTMLButtonElement>
+          <MenuItem<HTMLButtonElement>
             key={item}
             id={item}
             renderItem={({ props, ref, }) => (
@@ -181,12 +180,13 @@ export const MinimalisticExample = () => (
 );
 
 export const VerticalList = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    orientation={MenuOrientation.Vertical} // Only for the aria-orientation attribute
+    renderMenu={({ props, ref }) => (
       <div className="list vertical" ref={ref} {...props}>
         {strings.map(item => (
-          <ListItem<HTMLButtonElement>
+          <MenuItem<HTMLButtonElement>
             key={item}
             id={item}
             renderItem={({ props, ref, }) => (
@@ -202,12 +202,12 @@ export const VerticalList = () => (
 );
 
 export const Grid = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div className="list grid" ref={ref} {...props}>
         {numbers.map(item => (
-          <ListItem<HTMLButtonElement>
+          <MenuItem<HTMLButtonElement>
             key={item}
             id={item}
             renderItem={({ props, ref, }) => (
@@ -223,11 +223,11 @@ export const Grid = () => (
 );
 
 export const ComplexNesting = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Apple
@@ -235,7 +235,7 @@ export const ComplexNesting = () => (
           )}
         />
         <div className="card">
-          <ListItem<HTMLButtonElement>
+          <MenuItem<HTMLButtonElement>
             renderItem={({ props, ref,  }) => (
               <button {...props} ref={ref} className="item">
                 Orange
@@ -243,14 +243,14 @@ export const ComplexNesting = () => (
             )}
           />
           <div className="card vertical">
-            <ListItem<HTMLButtonElement>
+            <MenuItem<HTMLButtonElement>
               renderItem={({ props, ref,  }) => (
                 <button {...props} ref={ref} className="item">
                   Strawberry
                 </button>
               )}
             />
-            <ListItem<HTMLButtonElement>
+            <MenuItem<HTMLButtonElement>
               renderItem={({ props, ref,  }) => (
                 <button {...props} ref={ref} className="item">
                   Blueberry
@@ -265,13 +265,13 @@ export const ComplexNesting = () => (
 );
 
 export const InterruptedList = () => (
-  <List
+  <Menu
     {...listActionHandlers}
-    renderList={({ props, ref }) => (
+    renderMenu={({ props, ref }) => (
       <div className="list" ref={ref} {...props}>
         <h1>Section 1</h1>
         <button>Another focusable item</button>
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Apple
@@ -280,14 +280,14 @@ export const InterruptedList = () => (
         />
         <h1>Section 2</h1>
         <input defaultValue="Another focusable item" />
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Orange
             </button>
           )}
         />
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Manderine
@@ -297,14 +297,14 @@ export const InterruptedList = () => (
         <h1>Section 3</h1>
         <button>Another focusable item</button>
         <button>Another focusable item</button>
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Strawberry
             </button>
           )}
         />
-        <ListItem<HTMLButtonElement>
+        <MenuItem<HTMLButtonElement>
           renderItem={({ props, ref,  }) => (
             <button {...props} ref={ref} className="item">
               Blueberry
@@ -321,16 +321,16 @@ export const DynamicChangesToList = () => {
   const [customLabel, setCustomLabel] = useState("Custom Label");
 
   return (
-    <List
+    <Menu
       {...listActionHandlers}
-      renderList={({ props, ref }) => (
+      renderMenu={({ props, ref }) => (
         <div ref={ref} {...props}>
           Custom item label: <input value={customLabel} onChange={e => setCustomLabel(e.target.value)} type="text" /><br />
           Count of additional items: <input value={customItemCount} onChange={e => setCustomItemCount(Math.max(parseInt(e.target.value), 0))} type="number" /><br />
           <br />
 
           <div className="list">
-            <ListItem<HTMLButtonElement>
+            <MenuItem<HTMLButtonElement>
               renderItem={({ props, ref,  }) => (
                 <button {...props} ref={ref} className="item">
                   Starting item
@@ -338,7 +338,7 @@ export const DynamicChangesToList = () => {
               )}
             />
             {"-".repeat(customItemCount).split("").map((_, idx) => (
-              <ListItem<HTMLButtonElement>
+              <MenuItem<HTMLButtonElement>
                 key={idx}
                 renderItem={({ props, ref,  }) => (
                   <button {...props} ref={ref} className="item">
@@ -347,14 +347,14 @@ export const DynamicChangesToList = () => {
                 )}
               />
             ))}
-            <ListItem<HTMLButtonElement>
+            <MenuItem<HTMLButtonElement>
               renderItem={({ props, ref,  }) => (
                 <button {...props} ref={ref} className="item">
                   {customLabel}
                 </button>
               )}
             />
-            <ListItem<HTMLButtonElement>
+            <MenuItem<HTMLButtonElement>
               renderItem={({ props, ref,  }) => (
                 <button {...props} ref={ref} className="item">
                   Ending item
@@ -373,7 +373,7 @@ export const VirtualizedExample = () => {
 
   const rowRenderer = useCallback<ListRowRenderer>((item) => (
     <div style={item.style} key={item.key} data-id={item.key}>
-      <ListItem<HTMLButtonElement>
+      <MenuItem<HTMLButtonElement>
         id={item.index}
         renderItem={({ props, ref, }) => (
           <button {...props} ref={ref} className="item">
@@ -385,10 +385,10 @@ export const VirtualizedExample = () => {
   ), []);
 
   return (
-    <List
+    <Menu
       {...listActionHandlers}
       scrollToItem={(id) => setScrollToIndex(id as number)}
-      renderList={({ props, ref }) => (
+      renderMenu={({ props, ref }) => (
         <div className="list" style={{ height: "100%", minHeight: "400px" }} ref={ref} {...props}>
           <AutoSizer>
             {({width, height}) => (

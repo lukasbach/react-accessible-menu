@@ -1,5 +1,5 @@
 import { MutableRefObject, useCallback, useMemo, useRef, useState } from 'react';
-import { ItemId, ListContextProps, RegisteredItem } from './types';
+import { ItemId, MenuContextProps, RegisteredItem } from './types';
 import { sortItems } from './utils';
 import { useRefCopy } from './useRefCopy';
 
@@ -40,7 +40,7 @@ export const useOrderedItems = (
     }
   }, [focusItem, getItem]);
 
-  const registerItem = useCallback<ListContextProps["registerItem"]>((item) => {
+  const registerItem = useCallback<MenuContextProps["registerItem"]>((item) => {
     items.current.push(item);
     if (focusedItemRef.current === null) {
       focusItem(items.current[0], true);
@@ -48,7 +48,7 @@ export const useOrderedItems = (
     reorder();
   }, [focusItem, reorder]);
 
-  const unregisterItem = useCallback<ListContextProps["unregisterItem"]>((id) => {
+  const unregisterItem = useCallback<MenuContextProps["unregisterItem"]>((id) => {
     const index = items.current.findIndex(item => item.id === id);
     if (index >= 0) {
       items.current.splice(index, 1);
@@ -58,7 +58,7 @@ export const useOrderedItems = (
     }
   }, [focusItem]);
 
-  const updateItem = useCallback<ListContextProps["updateItem"]>((id, item) => {
+  const updateItem = useCallback<MenuContextProps["updateItem"]>((id, item) => {
     const index = items.current.findIndex(item => item.id === id);
     if (index >= 0) {
       items.current[index] = { ...items.current[index], ...item };
@@ -126,8 +126,3 @@ export const useOrderedItems = (
     moveFocusToCharacter,
   }
 };
-
-export type MoveFocusHelpers = Pick<
-  ReturnType<typeof useOrderedItems>,
-  'moveFocusIndexRelative' | 'moveFocusToStart' | 'moveFocusToEnd'
->;

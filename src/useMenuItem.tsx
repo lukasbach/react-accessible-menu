@@ -1,15 +1,15 @@
-import { ListItemRenderProps, ListItemType, UseListItemProps } from './types';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { MenuItemRenderProps, MenuItemType, UseMenuItemProps } from './types';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { ListContext } from './ListContext';
+import { useMenuContext } from './useMenuContext';
 
 const roles = {
-  [ListItemType.Menu]: 'menuitem',
-  [ListItemType.Radio]: 'menuitemradio',
-  [ListItemType.Checkbox]: 'menuitemcheckbox',
+  [MenuItemType.Menu]: 'menuitem',
+  [MenuItemType.Radio]: 'menuitemradio',
+  [MenuItemType.Checkbox]: 'menuitemcheckbox',
 };
 
-export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | undefined>({
+export const useMenuItem = <E extends HTMLElement = HTMLDivElement, D = any | undefined>({
   id: defaultId,
   data,
   searchLabel,
@@ -18,12 +18,12 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
   updateSearchLabelDeps,
   autoFocus, // TODO
   type: itemType,
-}: UseListItemProps<E, D>) => {
+}: UseMenuItemProps<E, D>) => {
   const [id] = useState(defaultId ?? uuid());
   const childRef = useRef<E>(null);
-  const { unregisterItem, registerItem, updateItem, focusedItem, onFocusItem, onSelectItem, type: listType } = useContext(ListContext);
+  const { unregisterItem, registerItem, updateItem, focusedItem, onFocusItem, onSelectItem, type: menuType } = useMenuContext();
   const hasFocus = focusedItem === id;
-  const listItemType = itemType ?? listType ?? ListItemType.Menu;
+  const listItemType = itemType ?? menuType ?? MenuItemType.Menu;
 
   useEffect(() => {
     if (childRef.current !== null) {
@@ -49,7 +49,7 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
     });
   }, [disabled, onSelect, data, searchLabel]);
 
-  const renderProps = useMemo<ListItemRenderProps<E, D>>(() => ({
+  const renderProps = useMemo<MenuItemRenderProps<E, D>>(() => ({
     id,
     data,
     ref: childRef,
@@ -75,6 +75,8 @@ export const useListItem = <E extends HTMLElement = HTMLDivElement, D = any | un
   }, [renderProps, ...updateSearchLabelDeps ?? []]);
 
   return {
+    id,
+    hasFocus,
     renderProps,
-  }
+  };
 }
