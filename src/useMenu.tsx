@@ -2,7 +2,7 @@ import { useOrderedItems } from './useOrderedItems';
 import { useRefCopy } from './useRefCopy';
 import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 import { ItemId, MenuContextProps, MenuOrientation, MenuProps, MenuRenderProps, MenuItemType, UseMenuProps } from './types';
-import { useListHotkeys } from './useListHotkeys';
+import { useMenuHotkeys } from './useMenuHotkeys';
 import { MenuContext } from './MenuContext';
 import * as React from 'react';
 
@@ -66,7 +66,7 @@ export const useMenu = <E extends HTMLElement = HTMLDivElement, D = any | undefi
     onFocusItem,
   }), [type, registerItem, unregisterItem, focusedItem, onFocusItem]);
 
-  useListHotkeys(moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, moveFocusToCharacter, onSelectItem, focusedItemRef, onKeyDown, listRef);
+  useMenuHotkeys(moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, moveFocusToCharacter, onSelectItem, focusedItemRef, onKeyDown, listRef);
 
   const renderProps = useMemo<MenuRenderProps<E, D>>(() => ({
     ref: listRef,

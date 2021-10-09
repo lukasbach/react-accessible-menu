@@ -5,9 +5,9 @@ import { useMenu } from './useMenu';
 
 export function Menu({
   renderMenu,
-  ...listProps
+  ...menuProps
 }: MenuProps) {
-  const { Provider, contextProps, renderProps } = useMenu(listProps);
+  const { Provider, contextProps, renderProps } = useMenu(menuProps);
 
   const content = useMemo(() => {
     return renderMenu(renderProps);

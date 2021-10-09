@@ -5,7 +5,7 @@ import { MutableRefObject } from 'react';
 
 const interactiveElements = ["textarea", "input"];
 
-export const useListHotkeys = <T extends HTMLElement>(
+export const useMenuHotkeys = <T extends HTMLElement>(
   moveFocusIndexRelative: ReturnType<typeof useOrderedItems>["moveFocusIndexRelative"],
   moveFocusToStart: ReturnType<typeof useOrderedItems>["moveFocusToStart"],
   moveFocusToEnd: ReturnType<typeof useOrderedItems>["moveFocusToEnd"],

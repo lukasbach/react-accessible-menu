@@ -5,10 +5,10 @@ import { useMenuItem } from './useMenuItem';
 
 export function MenuItem<E extends HTMLElement = HTMLDivElement, D = any | undefined>({
   renderItem,
-  ...listItemProps
+  ...menuItemProps
 }: MenuItemProps<E, D>) {
   const { renderProps } = useMenuItem<E, D>({
-    ...listItemProps,
+    ...menuItemProps,
     updateSearchLabelDeps: [renderItem]
   });
 

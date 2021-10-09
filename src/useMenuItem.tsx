@@ -23,7 +23,7 @@ export const useMenuItem = <E extends HTMLElement = HTMLDivElement, D = any | un
   const childRef = useRef<E>(null);
   const { unregisterItem, registerItem, updateItem, focusedItem, onFocusItem, onSelectItem, type: menuType } = useMenuContext();
   const hasFocus = focusedItem === id;
-  const listItemType = itemType ?? menuType ?? MenuItemType.Menu;
+  const menuItemType = itemType ?? menuType ?? MenuItemType.Menu;
 
   useEffect(() => {
     if (childRef.current !== null) {
@@ -55,7 +55,7 @@ export const useMenuItem = <E extends HTMLElement = HTMLDivElement, D = any | un
     ref: childRef,
     props: {
       tabIndex: hasFocus ? 0 : -1,
-      role: roles[listItemType],
+      role: roles[menuItemType],
       onFocus: e => {
         onFocusItem(id);
       },
