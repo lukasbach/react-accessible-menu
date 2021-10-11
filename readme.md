@@ -9,8 +9,19 @@
 
 <div style="text-align: center">
 <a href="http://lukasbach.github.io/react-accessible-menu/storybook">Demo</a> -
-<a href="http://lukasbach.github.io/react-accessible-menu/">Docs</a> -
+<a href="http://lukasbach.github.io/react-accessible-menu/">Docs</a>
 </div>
+
+## Features
+
+- List items can be navigated with Arrow keys, Home, End and letter keys for quick navigation
+- ARIA attributes and other accessibility attributes are automatically bound
+- Unopinionated, allows completely customized render logic and arbitrary DOM nesting ([Demo 1](https://lukasbach.github.io/react-accessible-menu/storybook/?path=/docs/accessible-menu--complex-nesting), [Demo 2](https://lukasbach.github.io/react-accessible-menu/storybook/?path=/docs/accessible-menu--interrupted-list))
+- Tiny in size and with minimal performance overhead
+- Trivially virtualizable ([Demo](https://lukasbach.github.io/react-accessible-menu/storybook/?path=/docs/accessible-menu--virtualized-example))
+- Provides both a component-based and hook-based interface ([Demo](https://lukasbach.github.io/react-accessible-menu/storybook/?path=/docs/accessible-menu--using-hooks))
+- Typed with Typescript
+- Supports dynamic updates to list ([Demo](https://lukasbach.github.io/react-accessible-menu/storybook/?path=/docs/accessible-menu--dynamic-changes-to-list))
 
 ## Installation
 
@@ -46,3 +57,5 @@ import { Menu, MenuItem } from 'react-accessible-menu';
   )}
 />
 ```
+
+You can find more examples in the [Project's Storybook](https://github.com/lukasbach/react-accessible-menu/blob/main/src/Menu.stories.tsx).

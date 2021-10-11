@@ -10,7 +10,7 @@ import { useMenuItem } from './useMenuItem';
 export default {
   title: 'Accessible Menu',
   component: Menu,
-  subcomponents: {List: Menu, ListItem: MenuItem},
+  subcomponents: {Menu, MenuItem},
 } as ComponentMeta<typeof Menu>;
 
 const numbers = "-".repeat(100).split("").map((_, idx) => idx);
