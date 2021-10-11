@@ -12,14 +12,13 @@ jobs:
         run: |
           yarn
           yarn build
-          yarn build-storybook
-          # mv ./storybook-static/index.html ./storybook-static/index.htm
+          mv ./storybook-static ./docs/storybook
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: storybook-static
+          FOLDER: docs
           CLEAN: true
           SINGLE_COMMIT: true
           GIT_CONFIG_NAME: lukasbachbot

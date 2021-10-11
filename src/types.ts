@@ -2,9 +2,10 @@ import { HTMLAttributes, HTMLProps, ReactElement, ReactNode, RefObject } from 'r
 
 export type ItemId = string | number;
 
-export interface MenuRefInterface<T = any | undefined> { // TODO
+export interface MenuImperativeHandle<T = any | undefined> { // TODO
   focusItem: (id: ItemId) => void;
-  triggerOrderRecalculation: () => void;
+  reorder: () => void;
+  focusedItem: ItemId | null;
 }
 
 export interface MenuProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {

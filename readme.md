@@ -1,71 +1,48 @@
-# chakra-ui-contextmenu
+# react-accessible-menu
 
-![](https://badgen.net/npm/v/chakra-ui-contextmenu)
-![](https://badgen.net/npm/types/chakra-ui-contextmenu)
-[![](https://badgen.net/bundlephobia/dependency-count/react-complex-tree)](https://bundlephobia.com/package/chakra-ui-contextmenu)
-[![](https://badgen.net/bundlephobia/minzip/react-complex-tree)](https://bundlephobia.com/package/chakra-ui-contextmenu)
+![](https://badgen.net/npm/v/react-accessible-menu)
+![](https://badgen.net/npm/types/react-accessible-menu)
+[![](https://badgen.net/bundlephobia/dependency-count/react-complex-tree)](https://bundlephobia.com/package/react-accessible-menu)
+[![](https://badgen.net/bundlephobia/minzip/react-complex-tree)](https://bundlephobia.com/package/react-accessible-menu)
 
-> Context Menu component for Chakra UI
+> Accessible keyboard-friendly interactive list/menu component
 
-![Demo for React Complex Tree](https://i.imgur.com/LDeTCoQ.gif)
-
-[Checkout the storybook for more examples!](http://lukasbach.github.io/chakra-ui-contextmenu/)
+<div style="text-align: center">
+<a href="http://lukasbach.github.io/react-accessible-menu/storybook">Demo</a> -
+<a href="http://lukasbach.github.io/react-accessible-menu/">Docs</a> -
+</div>
 
 ## Installation
 
-To start using chakra-ui-contextmenu, install it to your project as a dependency via
+To start using react-accessible-menu, install it to your project as a dependency via
 
 ```
-npm install chakra-ui-contextmenu
+npm install react-accessible-menu
 ```
 
-then import it and add your context menu component with
+then import it and add your menu with
 
 ```typescript jsx
-import { ContextMenu } from 'chakra-ui-contextmenu';
-import { Box, Button, ChakraProvider } from '@chakra-ui/react';
-import { MenuList, MenuItem } from '@chakra-ui/menu';
+import { Menu, MenuItem } from 'react-accessible-menu';
 
-<ContextMenu renderMenu={() => (
-  <MenuList>
-    <MenuItem>Context Menu Item 1</MenuItem>
-    <MenuItem>Context Menu Item 2</MenuItem>
-  </MenuList>
-)}>
-  {ref => (
-    <div ref={ref}>Target</div>
+<Menu
+  renderMenu={({ props, ref }) => (
+    <div className="list" ref={ref} {...props}>
+      <MenuItem<HTMLButtonElement>
+        renderItem={({ props, ref,  }) => (
+          <button {...props} ref={ref} className="item">
+            Apple
+          </button>
+        )}
+      />
+      <MenuItem<HTMLButtonElement>
+        renderItem={({ props, ref,  }) => (
+          <button {...props} ref={ref} className="item">
+            Orange
+          </button>
+        )}
+      />
+    </div>
   )}
-</ContextMenu>
-```
-
-## Usage with Typescript
-
-When using Typescript, you can type the context menu component with the kind
-of target component to get better typings:
-
-```typescript jsx
-<ContextMenu<HTMLDivElement> renderMenu={() => (
-  <MenuList>
-    <MenuItem>Context Menu Item 1</MenuItem>
-    <MenuItem>Context Menu Item 2</MenuItem>
-  </MenuList>
-)}>
-  {ref => (
-    <div ref={ref}>Target</div>
-  )}
-</ContextMenu>
-```
-
-## Props
-
-The `ContextMenu` component provides the following props:
-
-```typescript
-export interface ContextMenuProps<T extends HTMLElement> {
-  renderMenu: () => JSX.Element | null;
-  children: (ref: MutableRefObject<T | null>) => JSX.Element | null;
-  menuProps?: MenuProps;
-  portalProps?: PortalProps;
-  menuButtonProps?: MenuButtonProps;
-}
+/>
 ```

@@ -55,8 +55,9 @@
     "build:esm": "tsc -m es2015 --outDir lib/esm",
     "build:esnext": "tsc -m esnext --outDir lib/esnext",
     "build:bundle": "webpack",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build:storybook": "build-storybook",
+    "build:docs":  "typedoc --out docs src/index.ts",
+    "storybook": "start-storybook -p 6006"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
@@ -77,6 +78,7 @@
     "rimraf": "^3.0.2",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.2.1",
+    "typedoc": "^0.22.5",
     "typescript": "^4.4.3",
     "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0"

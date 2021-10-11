@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { ComponentMeta } from '@storybook/react';
-import { Menu, MenuOrientation, MenuProps } from '.';
+import { Menu, MenuImperativeHandle, MenuOrientation, MenuProps } from '.';
 import { AutoSizer, List as VirtualizedList, ListRowRenderer } from 'react-virtualized';
 import { MenuItem } from './MenuItem';
 import { action } from '@storybook/addon-actions';
@@ -178,6 +178,33 @@ export const MinimalisticExample = () => (
     )}
   />
 );
+
+export const ImperativeHandle = () => {
+  const menu = useRef<MenuImperativeHandle>(null);
+
+  return (
+    <Menu
+      ref={menu}
+      {...listActionHandlers}
+      renderMenu={({ props, ref }) => (
+        <div ref={ref} {...props} className="list">
+          {strings.map(item => (
+            <MenuItem<HTMLButtonElement>
+              key={item}
+              id={item}
+              renderItem={({ props, ref, }) => (
+                <button {...props} ref={ref} className="item">
+                  { item }
+                </button>
+              )}
+            />
+          ))}
+          <button onClick={() => menu.current?.focusItem("Blueberry")}>Focus Blueberry</button>
+        </div>
+      )}
+    />
+  );
+};
 
 export const VerticalList = () => (
   <Menu

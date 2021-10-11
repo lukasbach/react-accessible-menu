@@ -21,6 +21,7 @@ export const useMenu = <E extends HTMLElement = HTMLDivElement, D = any | undefi
 
   const {
     items,
+    reorder,
     getItem,
     registerItem,
     unregisterItem,
@@ -89,5 +90,6 @@ export const useMenu = <E extends HTMLElement = HTMLDivElement, D = any | undefi
     moveFocusToStart,
     moveFocusToEnd,
     moveFocusToCharacter,
+    reorder,
   };
 }
