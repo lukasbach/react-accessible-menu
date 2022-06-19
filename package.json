@@ -1,6 +1,6 @@
 {
   "name": "react-accessible-menu",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Accessible keyboard-friendly interactive list/menu component",
   "keywords": [
     "react",
@@ -56,7 +56,7 @@
     "build:esnext": "tsc -m esnext --outDir lib/esnext",
     "build:bundle": "webpack",
     "build:storybook": "build-storybook",
-    "build:docs":  "typedoc --out docs src/index.ts",
+    "build:docs": "typedoc --out docs src/index.ts",
     "storybook": "start-storybook -p 6006"
   },
   "devDependencies": {
