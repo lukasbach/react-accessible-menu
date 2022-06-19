@@ -20,4 +20,4 @@ export const Menu = forwardRef<MenuImperativeHandle, MenuProps>((
   }, [renderProps, renderMenu]);
 
   return <Provider value={contextProps}>{content}</Provider>;
-})
+}) as <T extends HTMLElement = HTMLDivElement>(props: MenuProps<T> & {ref?: React.ForwardedRef<MenuImperativeHandle>}) => React.ReactElement | null;
