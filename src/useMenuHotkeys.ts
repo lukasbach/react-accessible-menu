@@ -1,7 +1,6 @@
-import { useDocumentEvent } from './useDocumentEvent';
 import { useOrderedItems } from './useOrderedItems';
 import { ItemId, MenuContextProps } from './types';
-import { MutableRefObject } from 'react';
+import { MutableRefObject, useCallback, useEffect } from 'react';
 
 const interactiveElements = ["textarea", "input"];
 
@@ -14,8 +13,9 @@ export const useMenuHotkeys = <T extends HTMLElement>(
   focusedItemRef: MutableRefObject<ItemId | null>,
   onKeyDown: ((event: KeyboardEvent) => void) | undefined,
   containerRef: MutableRefObject<T | null>,
+  ignoreSearchByKey = false,
 ) => {
-  useDocumentEvent('keydown', e => {
+  const event = useCallback((e: KeyboardEvent) => {
     if (interactiveElements.includes((e.target as HTMLElement).tagName.toLowerCase())) {
       return;
     }
@@ -48,10 +48,15 @@ export const useMenuHotkeys = <T extends HTMLElement>(
         e.stopPropagation();
         onSelectItem(focusedItemRef.current);
       }
-    } else if (/^[a-zA-Z0-9]$/.test(e.key)) {
+    } else if (/^[a-zA-Z0-9]$/.test(e.key) && !ignoreSearchByKey) {
       e.preventDefault();
       e.stopPropagation();
       moveFocusToCharacter(e.key);
     }
-  }, [moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, onKeyDown]);
+  }, [moveFocusIndexRelative, moveFocusToStart, moveFocusToEnd, onKeyDown, ignoreSearchByKey]);
+
+  useEffect(() => {
+    containerRef.current?.addEventListener('keydown', event);
+    return () => containerRef.current?.removeEventListener('keydown', event);
+  }, [event]);
 };

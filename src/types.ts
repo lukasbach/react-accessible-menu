@@ -1,4 +1,4 @@
-import { HTMLAttributes, HTMLProps, ReactElement, ReactNode, RefObject } from 'react';
+import { HTMLAttributes, ReactElement, RefObject } from 'react';
 
 export type ItemId = string | number;
 
@@ -17,6 +17,7 @@ export interface MenuProps<E extends HTMLElement = HTMLDivElement, D = any | und
   focusedItem?: ItemId;
   scrollToItem?: (id: ItemId, itemData: D) => void;
   renderMenu: (props: MenuRenderProps<E, D>) => ReactElement | null;
+  ignoreSearchByKey?: boolean;
 }
 
 export interface MenuRenderProps<E extends HTMLElement = HTMLDivElement, D = any | undefined> {
